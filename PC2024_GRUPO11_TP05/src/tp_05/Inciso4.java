@@ -1,4 +1,4 @@
-package TP05;
+package tp_05;
 
 import java.time.Clock;
 import java.util.ArrayList;

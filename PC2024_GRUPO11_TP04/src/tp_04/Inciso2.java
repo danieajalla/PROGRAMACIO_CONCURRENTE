@@ -1,4 +1,4 @@
-package TP04;
+package tp_04;
 
 public class Inciso2 {
 

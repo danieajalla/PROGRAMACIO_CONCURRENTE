@@ -1,4 +1,4 @@
-package TP05;
+package tp_05;
 
 import java.util.ArrayList;
 import java.util.List;
