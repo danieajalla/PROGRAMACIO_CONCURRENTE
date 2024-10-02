@@ -22,34 +22,39 @@ public class Inciso06 {
 			try {
 				ENTYSAL.acquire();
 				System.out.println("El Cliente, ingresa al local");
+				if(SILLAS.tryAcquire(1)) {
+					try {
+						System.out.println("El Cliente, tomá una silla");
+					}finally {
+						ENTYSAL.release();
+					}
+					try {
+						SALA.acquire();
+						if(BARBERO.tryAcquire(0)) {
+							try {
+								System.out.println("Un Cliente despierta al Barbero");
+							}finally {
+								BARBERO.release();
+							}
+						}
+						LOOCK.acquire();
+						System.out.println("Cliente, termina de ser atendido");
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					}finally {
+						SALA.release();
+					}
+				}else {
+					try{
+						System.out.println("El Cliente, se retira por que no encontro silla disponible");
+					}finally {
+						ENTYSAL.release();
+					}
+				}
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
-			finally {
-				ENTYSAL.release();
-			}
-			if(SILLAS.tryAcquire(1)) {
-				try {
-					System.out.println("El Cliente, tomá una silla");
-					SALA.acquire();
-					System.out.println("El Cliente, se derige a la sala del Barbero");
-					if(BARBERO.tryAcquire(0)) {
-						try {
-							System.out.println("Un Cliente despierta al Barbero");
-						}finally {
-							BARBERO.release();
-						}
-					}
-					LOOCK.acquire();
-					System.out.println("Cliente, termina de ser atendido");
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-				}finally {
-					SALA.release();
-				}
-			}else {
-				System.out.println("El Cliente, se retira por que no encontro silla disponible");
-			}
+			
 			try {
 				ENTYSAL.acquire();
 				System.out.println("El Cliente, se retira del local");
