@@ -1,7 +1,7 @@
 package tp_07;
 
 import java.util.concurrent.Semaphore;
-public class TP_07 {
+public class Inciso03 {
 	static Semaphore semaforo = new Semaphore(1,true);
 	static Semaphore semaforo2 = new Semaphore(1,true);
 	private static int NCUADRANTE = 4;
