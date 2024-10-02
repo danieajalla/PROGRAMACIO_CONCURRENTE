@@ -2,7 +2,7 @@ package tp_07;
 
 import java.util.concurrent.Semaphore;
 
-public class Inciso1 {
+public class Inciso2 {
 	private static int A = 50;
     private static int B = 150;
     private static Semaphore semaforo = new Semaphore(1,true);
