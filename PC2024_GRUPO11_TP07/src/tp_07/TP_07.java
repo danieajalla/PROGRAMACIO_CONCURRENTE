@@ -1,18 +1,17 @@
 package tp_07;
 
 import java.util.concurrent.Semaphore;
-
-public class Inciso3 {
-	static  Semaphore semaforo = new Semaphore(1,true);
+public class TP_07 {
+	static Semaphore semaforo = new Semaphore(1,true);
 	static Semaphore semaforo2 = new Semaphore(1,true);
-	private static int NCUADRANTE=4;
+	private static int NCUADRANTE = 4;
 	public static void main(String[] args) {
 		for(int i=1; i<=NCUADRANTE; i++) {
 			new Thread(new Cuadrante(i)).start();
 		}
 	}
-	private static class Cuadrante implements Runnable{
-		 int id;
+	static class Cuadrante implements Runnable{
+		private final int id;
 		public Cuadrante(int id) {
 			this.id = id;
 		}
@@ -31,7 +30,7 @@ public class Inciso3 {
 					semaforo2.release();
 				}
 			}
-			else if(id==2) {
+			if(id==2) {
 				try {
 					semaforo.acquire();
 					semaforo2.acquire();
@@ -43,7 +42,7 @@ public class Inciso3 {
 					semaforo2.release();
 				}
 			}
-			else if(id==3) {
+			if(id==3) {
 				try {
 					semaforo.acquire();
 					semaforo2.acquire();

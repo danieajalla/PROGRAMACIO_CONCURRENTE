@@ -6,7 +6,7 @@ public class Inciso2 {
 	private static int X = 0;
     private static Semaphore semaforo1 = new Semaphore(1,true);
     private static Semaphore semaforo2 = new Semaphore(0,true);
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args)  {
         new Thread(new Tarea1()).start();
         new Thread(new Tarea2()).start();
         new Thread(new Tarea3()).start();
