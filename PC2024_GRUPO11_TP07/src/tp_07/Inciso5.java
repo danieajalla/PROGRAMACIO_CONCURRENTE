@@ -1,9 +1,10 @@
 package tp_07;
 
-public class Iniciso1 {
+public class Inciso5 {
 
 	public static void main(String[] args) {
-		System.out.println("Holas mundos Daniel");
+		// TODO Auto-generated method stub
+
 	}
 
 }
