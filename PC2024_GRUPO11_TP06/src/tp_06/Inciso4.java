@@ -40,6 +40,5 @@ public class Inciso4 {
 				System.out.println("Cliente "+id+" abandona el Súper");
 			}
 		}
-		
 	}
 }

@@ -1,7 +1,6 @@
 package tp_06;
 
 import java.util.concurrent.Semaphore;
-
 public class Inciso3 {
     private static final Semaphore cola = new Semaphore(50,true);
     private static Semaphore cabina = new Semaphore(1,true);
@@ -20,7 +19,6 @@ public class Inciso3 {
 			this.id = id;
 			this.contador = 0;
 		}
-
 		@Override
 		public void run() {
 			try {
