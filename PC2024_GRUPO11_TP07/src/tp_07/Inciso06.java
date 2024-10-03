@@ -12,7 +12,7 @@ public class Inciso06 {
 	public static void main(String[] args) {
 		new Thread(new SalaBarbero()).start();
 		for(int i=0; i<20; i++) {
-			new Thread(new SalaEspera()).start();
+			new Thread(new SalaEspera(),""+i).start();
 		}
 	}
 	static class SalaEspera implements Runnable{
@@ -21,10 +21,10 @@ public class Inciso06 {
 		public void run() {
 			try {
 				ENTYSAL.acquire();
-				System.out.println("El Cliente, ingresa al local");
+				System.out.println("El Cliente "+Thread.currentThread().getName()+", ingresa al local");
 				if(SILLAS.tryAcquire(1)) {
 					try {
-						System.out.println("El Cliente, tomá una silla");
+						System.out.println("El Cliente "+Thread.currentThread().getName()+", tomá una silla");
 					}finally {
 						ENTYSAL.release();
 					}
@@ -32,13 +32,13 @@ public class Inciso06 {
 						SALA.acquire();
 						if(BARBERO.tryAcquire(0)) {
 							try {
-								System.out.println("Un Cliente despierta al Barbero");
+								System.out.println("Un Cliente "+Thread.currentThread().getName()+", despierta al Barbero");
 							}finally {
 								BARBERO.release();
 							}
 						}
 						LOOCK.acquire();
-						System.out.println("Cliente, termina de ser atendido");
+						System.out.println("Cliente "+Thread.currentThread().getName()+", termina de ser atendido");
 					} catch (InterruptedException e) {
 						Thread.currentThread().interrupt();
 					}finally {
@@ -46,7 +46,7 @@ public class Inciso06 {
 					}
 				}else {
 					try{
-						System.out.println("El Cliente, se retira por que no encontro silla disponible");
+						System.out.println("El Cliente "+Thread.currentThread().getName()+", se retira por que no encontro silla disponible");
 					}finally {
 						ENTYSAL.release();
 					}
@@ -57,7 +57,7 @@ public class Inciso06 {
 			
 			try {
 				ENTYSAL.acquire();
-				System.out.println("El Cliente, se retira del local");
+				System.out.println("El Cliente "+Thread.currentThread().getName()+", se retira del local");
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}finally {
@@ -72,14 +72,14 @@ public class Inciso06 {
 			while(true) {
 				if(SILLAS.availablePermits()<NUMEROSILLAS) {
 					try {
-						System.out.println("Barbero esta atendiendo al Cliente");
+						System.out.println("Barbero esta atendiendo al Cliente ");
 					}finally {
 						SILLAS.release();
 						LOOCK.release();
 					}
 				}else {
 					try {
-						System.out.println("no hay Clientes, el Barbero se duerme");
+						System.out.println("no hay Clientes , el Barbero se duerme");
 						BARBERO.acquire();
 					}catch (InterruptedException e) {
 						Thread.currentThread().interrupt();
