@@ -1,44 +1,53 @@
 package tp_06;
 
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Inciso4 {
-	private static final Semaphore carrito = new Semaphore(15,true);
+	private static final AtomicInteger idClientes = new AtomicInteger(1);
 	private static final Semaphore caja = new Semaphore(3,true);
+	private static final Semaphore carritos = new Semaphore(15,true);
 	public static void main(String[] args) {
-		int j = 0;
-		while(true) {
-			try {
-				new Thread(new Cliente(j+1)).start();
-				j++;
-				Thread.sleep((int) (Math.random()*201)+300);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-			}
-		}
+		new Thread(new LlegadaCliente()).start();
 	}
-	static class Cliente implements Runnable{
-		private final int id;
-		public Cliente(int id) {
-			this.id = id;
-		}
+	static class LlegadaCliente implements Runnable {
+
 		@Override
 		public void run() {
+			int id = idClientes.getAndIncrement();
+			new Thread(() -> ProcesandoCompra(id)).start();
 			try {
-				carrito.acquire();
-				System.out.println("Cliente "+id+" entró al Súper y tomó un carrito");
-				Thread.sleep(((int) (Math.random()*4)+4)*1000);
+                Thread.sleep(ThreadLocalRandom.current().nextInt(300, 501));
+                new Thread(this).start();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+		}
+
+		private void ProcesandoCompra(int id) {
+			try {
+				carritos.acquire();
+				System.out.println("Cliente "+id+" entró al Súper y tomó un carrito.");
 				System.out.println("Cliente "+id+" está comprando");
-				caja.acquire();
-				Thread.sleep(((int) (Math.random()*3)+2)*1000);
-				System.out.println("Cliente "+id+" está pagando en la caja");
+				Thread.sleep(ThreadLocalRandom.current().nextInt(4000, 7001));
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
-			}finally {
-				caja.release();
-				carrito.release();
-				System.out.println("Cliente "+id+" abandona el Súper");
 			}
+            try {
+            	if (!caja.tryAcquire()) {
+            	    System.out.println("Cliente " + id + " está esperando un cajero.");
+            	    caja.acquire();
+            	}
+                System.out.println("Cliente "+id +" esta pagando en la Caja.");
+                Thread.sleep(ThreadLocalRandom.current().nextInt(2000, 4001));
+                System.out.println("Cliente "+id +" abandona el Súper.");
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }finally {
+            	caja.release();
+            	carritos.release();
+            }
 		}
 	}
 }

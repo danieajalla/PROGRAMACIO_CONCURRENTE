@@ -15,52 +15,46 @@ public class Inciso2 {
     private static class Tarea1 implements Runnable {
         @Override
         public void run() {
-        	while(true) {
-        		 try {
-                     semaforo2.acquire();
-                     semaforo1.acquire();
-                     X = 2*X;
-                     System.out.println("Tarea 1: valor X = " +X);
-                 } catch (InterruptedException e) {
-                     Thread.currentThread().interrupt();
-                 } finally {
-                    semaforo1.release();
-                }
-        	}
+        	try {
+                semaforo2.acquire();
+                semaforo1.acquire();
+                X = 2*X;
+                System.out.println("Tarea 1: valor X = " +X);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+               semaforo1.release();
+           }
         }
     }
 
     private static class Tarea2 implements Runnable {
         @Override
         public void run() {
-        	 while(true) {
-        		 try {
-                     semaforo1.acquire();
-                     X = X*X;
-                    System.out.println("Tarea 2: valor X = " +X);
-                 } catch (InterruptedException e) {
-                     Thread.currentThread().interrupt();
-                 }finally {
-                    semaforo1.release();
-                }
-        	 }
+        	try {
+                semaforo1.acquire();
+                X = X*X;
+               System.out.println("Tarea 2: valor X = " +X);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }finally {
+               semaforo1.release();
+           }
         }
     }
     private static class Tarea3 implements Runnable {
         @Override
         public void run() {
-        	while(true) {
-        		 try {
-                     semaforo1.acquire();
-                     X = X + 3;
-                     System.out.println("Tarea 3: valor X = " +X);
-                 } catch (InterruptedException e) {
-                     Thread.currentThread().interrupt();
-                 } finally {
-                    semaforo2.release();
-                    semaforo1.release();
-                }
-        	}
+        	try {
+                semaforo1.acquire();
+                X = X + 3;
+                System.out.println("Tarea 3: valor X = " +X);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+               semaforo2.release();
+               semaforo1.release();
+           }
         }
     }
 }
