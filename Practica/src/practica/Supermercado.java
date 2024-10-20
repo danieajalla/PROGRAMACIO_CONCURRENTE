@@ -42,12 +42,10 @@ public class Supermercado {
 		@Override
 		public void run() {
 			System.out.println("Cliente "+idCliente+" atendido en la caja ");
-			for(int i=0; i<cantidadArticulo; i++) {
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-				}
+			try {
+				Thread.sleep(50*cantidadArticulo);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
 			}
 			System.out.println("Cliente "+idCliente+" finalizo pago de sus articulos ");
 		}
