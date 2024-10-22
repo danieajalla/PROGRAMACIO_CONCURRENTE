@@ -48,7 +48,8 @@ public class Inciso04 {
             for (File archivo : directorio.listFiles()) {
                 if (!archivosExistentes.contains(archivo.getName())) {
                     archivosExistentes.add(archivo.getName());
-                    System.out.println("Nuevo archivo [" + archivo.getName() + "], con tamaño [" + archivo.length() + " bytes]");
+                    System.out.println("Nuevo archivo [" + archivo.getName() + "], "
+                    		+ "con tamaño [" + archivo.length() + " bytes]");
                 }
             }
         }
