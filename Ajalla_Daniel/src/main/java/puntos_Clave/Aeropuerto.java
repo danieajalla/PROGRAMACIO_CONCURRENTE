@@ -21,7 +21,7 @@ public class Aeropuerto {
 		BOLETERIAS.put("T3", new Semaphore(4,true));
 		BOLETERIAS.put("T4", new Semaphore(5,true));
 		BOLETERIAS.put("T5", new Semaphore(3,true));
-		AeroPuerto.schedule(new LlegadaTaxis(), 0, TimeUnit.MILLISECONDS);
+		AeroPuerto.scheduleAtFixedRate(new LlegadaTaxis(), 0,ThreadLocalRandom.current().nextInt(120, 181), TimeUnit.MILLISECONDS);
 		AeroPuerto.schedule(() -> {AeroPuerto.shutdown(); executor.shutdown();}, 2, TimeUnit.MINUTES);
 	}
 	static class LlegadaTaxis implements Runnable {
@@ -35,8 +35,6 @@ public class Aeropuerto {
             for(int i=0; i<numPasajeros; i++) {
             	executor.submit(() -> ProcesarPasajero(destino,idTerminal));
             }
-            int tiempo = ThreadLocalRandom.current().nextInt(120, 181);
-            AeroPuerto.schedule(this, tiempo, TimeUnit.MILLISECONDS);
 		}
 
 		private void ProcesarPasajero(int destino, String idTerminal) {
